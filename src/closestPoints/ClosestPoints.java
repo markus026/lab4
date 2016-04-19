@@ -18,7 +18,7 @@ public class ClosestPoints {
 	public void divideAndConquer(){
 		//Collections.sort(points);
 		points.sort(null);
-		printPoints(points);
+		//printPoints(points);
 		
 		double d = recursion(points);
 		System.out.println(d);
