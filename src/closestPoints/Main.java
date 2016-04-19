@@ -31,12 +31,16 @@ public class Main {
 				listWithoutEmptyStrings.add(stringArray[i]);
 			}
 		}
-		String name = listWithoutEmptyStrings.get(0);
+		//System.out.println(line);
+		//String name = listWithoutEmptyStrings.get(0);
 		Double x = Double.parseDouble(listWithoutEmptyStrings.get(1));
 		Double y = Double.parseDouble(listWithoutEmptyStrings.get(2));
-		cp.addPoint(name, x, y);
+		cp.addPoint(x, y);
 	//	System.out.println(name + ": " + x + " --- " + y);
 		line = inFile.nextLine();
+		if(line.startsWith(" ")){
+			line = line.substring(1);
+		}
 	}
 	cp.divideAndConquer();
 	
@@ -49,7 +53,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		new Main(args);
-		//new Main("pr1002-tsp.txt");
+		//new Main("ulysses16-tsp.txt");
 		//new Main("a280-tsp.txt");
 		//new Main("ali535-tsp.txt");
 		//new Main("att48-tsp.txt");

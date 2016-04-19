@@ -11,8 +11,8 @@ public class ClosestPoints {
 		points = new ArrayList<Point>();
 	}
 	
-	public void addPoint(String name, double x, double y){
-		points.add(new Point(name, x, y));
+	public void addPoint(double x, double y){
+		points.add(new Point(x, y));
 	}
 	
 	public void divideAndConquer(){
