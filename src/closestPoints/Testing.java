@@ -15,9 +15,9 @@ public class Testing {
 
 	@Test
 	public void test() {
-//		cp.addPoint("a", 10, 10);
-//		cp.addPoint("b", 5, 15);
-//		cp.addPoint("c", -12.3, 10);
+		cp.addPoint(10, 10);
+		cp.addPoint(5, 15);
+		cp.addPoint(-12.3, 10);
 //		cp.addPoint("d", 0, 0.1);
 //		cp.addPoint("e", -121, 0);
 //		cp.addPoint("f", 12, 0);

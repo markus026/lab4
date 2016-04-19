@@ -43,24 +43,46 @@ public class ClosestPoints {
 		double distance2 = recursion(secondHalve);
 		
 		double distanceOnePointOnEachSide = Double.MAX_VALUE;
-//		double delta;
-//		if(distance1 <= distance2){
-//			delta = distance1;
-//		}
-//		else{
-//			delta = distance2;
-//		}
-//		for(Point p:list){
-//			if(Math.abs(p.x - secondHalve.get(0).x))
-//		}
+		double delta;
+		if(distance1 <= distance2){
+			delta = distance1;
+		}
+		else{
+			delta = distance2;
+		}
+		
+		ArrayList<Point> tempFirst = new ArrayList<Point>();
+		ArrayList<Point> tempSecond = new ArrayList<Point>();
 		for(int i = 0; i < firstHalve.size(); i++){
-			for (int j = 0; j < secondHalve.size(); j++){
-				double temp = firstHalve.get(i).distanceTo(secondHalve.get(j));
+			double distanceToMiddle = Math.abs(firstHalve.get(i).x - secondHalve.get(0).x);
+			if(distanceToMiddle < delta){
+				tempFirst.add(firstHalve.get(i));
+			}
+		}
+		for(int i = 0; i < secondHalve.size(); i++){
+			double distanceToMiddle = Math.abs(secondHalve.get(i).x - secondHalve.get(0).x);
+			if(distanceToMiddle < delta){
+				tempSecond.add(secondHalve.get(i));
+			}
+		}
+		for(int i = 0; i < tempFirst.size(); i++){
+			for (int j = 0; j < tempSecond.size(); j++){
+				double temp = tempFirst.get(i).distanceTo(tempSecond.get(j));
 				if(temp < distanceOnePointOnEachSide){
 					distanceOnePointOnEachSide = temp; 
 				}
 			}
 		}
+		
+		
+//		for(int i = 0; i < firstHalve.size(); i++){
+//			for (int j = 0; j < secondHalve.size(); j++){
+//				double temp = firstHalve.get(i).distanceTo(secondHalve.get(j));
+//				if(temp < distanceOnePointOnEachSide){
+//					distanceOnePointOnEachSide = temp; 
+//				}
+//			}
+//		}
 		if(distance1 <= distance2){
 			if(distance1 <= distanceOnePointOnEachSide){
 				return distance1;
