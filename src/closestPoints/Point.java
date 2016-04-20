@@ -3,17 +3,19 @@ package closestPoints;
 import java.util.Comparator;
 
 public class Point implements Comparable {
+	String name;
 	 double x;
 	private double y;
 	
-	public Point(double x, double y){
+	public Point(String name, double x, double y){
+		this.name = name;
 		this.x = x;
 		this.y = y;
 	}
 
 	
 	public String info(){
-		return x + " - " + y;
+		return name + ": " + x + " - " + y;
 	}
 
 	@Override

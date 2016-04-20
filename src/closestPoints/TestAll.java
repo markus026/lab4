@@ -9,7 +9,7 @@ import java.io.*;
 
 
 public class TestAll {
-	private final static String TESTDATA_DIR = "C:/Users/Maggan/Downloads/algdes-labFiles/lab4/data";
+	private final static String TESTDATA_DIR = "/h/dk/z/dat14mge/edaf05/lab3files/data/";
 	private final static char SC = File.separatorChar;
 	
 	/**
@@ -21,46 +21,10 @@ public class TestAll {
 	private void runTestCase(String testname) {
 		System.out.println("Running test: " + testname);
 		String infile = TESTDATA_DIR + SC + testname + "-tsp.txt";
-		//String outfile = TESTDATA_DIR + SC + testname + "-out.txt";
-
-		/*
-		 * Divert stdout to buffer
-		 */
-//		PrintStream oldOut = System.out;
-//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//		PrintStream ps = new PrintStream(baos);
-//		System.setOut(ps);
-
 		
 		String[] args = new String[1];
 		args[0] = infile;
-		Main.main(args); // FIXME: Change GS to your own class!
-	
-
-		/*
-		 * Restore stdout 
-		 */
-	//	System.setOut(oldOut);
-
-		/*
-		 * Compare program output with .out file
-		 */
-//		try {
-//			StringBuilder sb = new StringBuilder();
-//			FileInputStream is = new FileInputStream(new File(outfile));
-//			byte buffer[] = new byte[1024];
-//
-//			while (is.available() != 0) {
-//				int i = is.read(buffer);
-//				sb.append(new String(buffer, 0, i));
-//			}
-//
-//			assertEquals(sb.toString(), baos.toString());
-//		} catch (FileNotFoundException e) {
-//			fail("File " + outfile + " not found.");
-//		} catch (IOException e) {
-//			fail("Error reading " + outfile);
-//		}
+		Main.main(args);
 	}
 
 	/**
