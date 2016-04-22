@@ -5,7 +5,7 @@ import java.util.Comparator;
 public class Point implements Comparable {
 	String name;
 	 double x;
-	private double y;
+	 double y;
 	
 	public Point(String name, double x, double y){
 		this.name = name;

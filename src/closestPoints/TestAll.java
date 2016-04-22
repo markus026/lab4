@@ -9,7 +9,7 @@ import java.io.*;
 
 
 public class TestAll {
-	private final static String TESTDATA_DIR = "/h/dk/z/dat14mge/edaf05/lab3files/data/";
+	private final static String TESTDATA_DIR = "C:/Users/Maggan/Downloads/algdes-labFiles/lab4/data";
 	private final static char SC = File.separatorChar;
 	
 	/**
@@ -19,7 +19,7 @@ public class TestAll {
 	 *            Name of test data to be used, e.g. "stable-marriage-friends".
 	 */
 	private void runTestCase(String testname) {
-		System.out.println("Running test: " + testname);
+		System.out.print("Running test: " + testname + ":\t");
 		String infile = TESTDATA_DIR + SC + testname + "-tsp.txt";
 		
 		String[] args = new String[1];

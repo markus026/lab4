@@ -39,7 +39,7 @@ public class Main {
 	}
 	cp.divideAndConquer();
 //	cp.printPoints();
-//	System.out.println(cp.getShortestPoints());
+	//System.out.println(cp.getClosestPoints());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +48,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		new Main(args);
-		//new Main("wc-instance-65534.txt");
+		//new Main("pla85900-tsp.txt");
 	}
 
 }

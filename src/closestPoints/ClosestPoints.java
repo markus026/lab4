@@ -5,102 +5,107 @@ import java.util.Collections;
 import java.util.List;
 
 public class ClosestPoints {
-	private ArrayList<Point> points;
-	private String shortestPoints;
-	private String shortestPoints2;
-	private String shortest;
+	private ArrayList<Point> xList;
+	private ArrayList<Point> yList;
+	private Pair closestPair;
+	private XComparator xc = new XComparator();
+	private YComparator yc = new YComparator();
 
 	public ClosestPoints() {
-		points = new ArrayList<Point>();
+		xList = new ArrayList<Point>();
+		yList = new ArrayList<Point>();
 	}
 
 	public void addPoint(String name, double x, double y) {
-		points.add(new Point(name, x, y));
+		xList.add(new Point(name, x, y));
+		yList.add(new Point(name, x, y));
 	}
 
 	public void divideAndConquer() {
-		points.sort(null);
-
-		double d = recursion(points);
-		if (points.size() == 2) {
-			shortest = shortestPoints2;
-		}
-		System.out.println(d);
+		xList.sort(xc);
+		yList.sort(yc);
+		closestPair = closestPairRec(xList, yList);
+		System.out.println(closestPair.distance);
 	}
 
-	private double recursion(List<Point> list) {
-		if (list.size() == 2) {
-			double distance = list.get(0).distanceTo(list.get(1));
-			shortestPoints2 = list.get(0).name + " - " + list.get(1).name;
-			return distance;
-			
-		} else if (list.size() == 1) {
-			return Double.MAX_VALUE;
-			
-		} else {
-			int halve = list.size() / 2;
-			List<Point> firstHalve = list.subList(0, halve);
-			List<Point> secondHalve = list.subList(halve, list.size());
-			double distance1 = recursion(firstHalve);
-			double distance2 = recursion(secondHalve);
-
-			double distanceOnePointOnEachSide = Double.MAX_VALUE;
-			double delta;
-			
-			if (distance1 <= distance2) {
-				delta = distance1;
-			} else {
-				delta = distance2;
+	private Pair closestPairRec(List<Point> xList, List<Point> yList) {
+		if (xList.size() <= 3) {
+			Pair p1p2 = new Pair(new Point("a", Double.MAX_VALUE, Double.MAX_VALUE),
+					new Point("b", Double.MAX_VALUE, Double.MAX_VALUE), Double.MAX_VALUE);
+			double distance = Double.MAX_VALUE;
+			if (xList.size() > 1) {
+				distance = xList.get(0).distanceTo(xList.get(1));
+				p1p2 = new Pair(xList.get(0), xList.get(1), distance);
 			}
-
-			ArrayList<Point> tempFirst = new ArrayList<Point>();
-			ArrayList<Point> tempSecond = new ArrayList<Point>();
-			for (int i = 0; i < firstHalve.size(); i++) {
-				double distanceToMiddle = Math.abs(firstHalve.get(i).x - secondHalve.get(0).x);
-				if (distanceToMiddle < delta) {
-					tempFirst.add(firstHalve.get(i));
+			if (xList.size() > 2) {
+				double distance2 = xList.get(1).distanceTo(xList.get(2));
+				double distance3 = xList.get(0).distanceTo(xList.get(2));
+				if (distance2 < distance && distance2 < distance3) {
+					distance = distance2;
+					p1p2 = new Pair(xList.get(1), xList.get(2), distance);
+				} else if (distance3 < distance) {
+					distance = distance3;
+					p1p2 = new Pair(xList.get(0), xList.get(2), distance);
 				}
 			}
-			for (int i = 0; i < secondHalve.size(); i++) {
-				double distanceToMiddle = Math.abs(secondHalve.get(i).x - secondHalve.get(0).x);
-				if (distanceToMiddle < delta) {
-					tempSecond.add(secondHalve.get(i));
+			return p1p2;
+		}
+
+		else {
+			int halve = xList.size() / 2;
+			List<Point> leftX = xList.subList(0, halve);
+			List<Point> rightX = xList.subList(halve, xList.size());
+			List<Point> leftY = new ArrayList<Point>();
+			List<Point> rightY = new ArrayList<Point>();
+			for (Point p : yList) {
+				if (p.x < xList.get(halve).x) {
+					leftY.add(p);
+				} else {
+					rightY.add(p);
 				}
 			}
-			for (int i = 0; i < tempFirst.size(); i++) {
-				for (int j = 0; j < tempSecond.size(); j++) {
-					double temp = tempFirst.get(i).distanceTo(tempSecond.get(j));
-					if (temp < distanceOnePointOnEachSide) {
-						shortestPoints = tempFirst.get(i).name + " - " + tempSecond.get(j).name;
-						distanceOnePointOnEachSide = temp;
+
+			Pair leftHalve = closestPairRec(leftX, leftY);
+			Pair rightHalve = closestPairRec(rightX, rightY);
+
+			double delta = Math.min(leftHalve.distance, rightHalve.distance);
+			double xMax = leftX.get(leftX.size() - 1).x;
+			ArrayList<Point> tempY = new ArrayList<Point>();
+			for (int i = 0; i < yList.size(); i++) {
+				double distanceToMiddle = Math.abs(yList.get(i).x - xMax);
+				if (distanceToMiddle < delta) {
+					tempY.add(yList.get(i));
+				}
+			}
+
+			double tempDistance;
+			double distancePointsWithinStrip = Double.MAX_VALUE;
+			Pair pairDifferentSides = null;
+			for (int i = 0; i < tempY.size(); i++) {
+				for (int j = 1; j < 16; j++) {
+					if (i + j < tempY.size()) {
+						tempDistance = tempY.get(i).distanceTo(tempY.get(i + j));
+						if (tempDistance < distancePointsWithinStrip) {
+							distancePointsWithinStrip = tempDistance;
+							pairDifferentSides = new Pair(tempY.get(i), tempY.get(i + j), distancePointsWithinStrip);
+						}
+					} else {
+						break;
 					}
 				}
 			}
 
-			if (distance1 <= distance2) {
-				if (distance1 <= distanceOnePointOnEachSide) {
-					shortest = shortestPoints2;
-					return distance1;
-				}
+			if (distancePointsWithinStrip < delta) {
+				return pairDifferentSides;
+			} else if (leftHalve.distance < rightHalve.distance) {
+				return leftHalve;
+			} else {
+				return rightHalve;
 			}
-			if (distance2 <= distance1) {
-				if (distance2 <= distanceOnePointOnEachSide) {
-					shortest = shortestPoints2;
-					return distance2;
-				}
-			}
-			shortest = shortestPoints;
-			return distanceOnePointOnEachSide;
 		}
 	}
 
-	public String getShortestPoints() {
-		return shortest;
-	}
-
-	public void printPoints() {
-		for (Point p : points) {
-			System.out.println(p.info());
-		}
+	public String getClosestPoints() {
+		return "p1: " + closestPair.p1.info() + "\n" + "p2: " + closestPair.p2.info();
 	}
 }
